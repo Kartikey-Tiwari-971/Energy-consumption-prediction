@@ -24,24 +24,42 @@ def predict():
         data = request.get_json()
 
         # Extract features from the request
-        # Expected format: {"temperature": 25, "humidity": 60, "square_footage": 1500, "occupancy": 3, "hour_of_day": 14}
+        # Expected format: {"n_lights": 5, "w_lights": 10, ...}
+
+        # Helper to safely get values, default to 0 if missing
+        def get_val(key, type_cast=float):
+            return type_cast(data.get(key, 0))
+
         features = [
-            float(data['temperature']),
-            float(data['humidity']),
-            float(data['square_footage']),
-            int(data['occupancy']),
-            int(data['hour_of_day'])
+            get_val('n_lights', int), get_val('w_lights'),
+            get_val('n_fans', int), get_val('w_fans'),
+            get_val('n_ac', int), get_val('w_ac'),
+            get_val('n_tv', int), get_val('w_tv'),
+            get_val('n_fridge', int), get_val('w_fridge')
         ]
+
+        unit_price = get_val('unit_price', float)
 
         # Reshape for prediction
         input_data = np.array([features])
 
-        # Make prediction
-        prediction = model.predict(input_data)[0]
+        # Make prediction (Daily kWh)
+        daily_kwh = model.predict(input_data)[0]
+
+        # Ensure non-negative
+        daily_kwh = max(0, daily_kwh)
+
+        weekly_kwh = daily_kwh * 7
+        monthly_kwh = daily_kwh * 30
+
+        estimated_bill = monthly_kwh * unit_price
 
         return jsonify({
             'success': True,
-            'prediction': float(prediction)
+            'daily_kwh': float(daily_kwh),
+            'weekly_kwh': float(weekly_kwh),
+            'monthly_kwh': float(monthly_kwh),
+            'estimated_bill': float(estimated_bill)
         })
 
     except Exception as e:
