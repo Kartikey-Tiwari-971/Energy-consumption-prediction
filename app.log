@@ -1,0 +1,15 @@
+Model loaded successfully.
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.2:5000
+[33mPress CTRL+C to quit[0m
+/home/jules/.pyenv/versions/3.12.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but RandomForestRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [15/Dec/2025 09:42:47] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [15/Dec/2025 09:45:05] "OPTIONS /predict HTTP/1.1" 200 -
+/home/jules/.pyenv/versions/3.12.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but RandomForestRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [15/Dec/2025 09:45:05] "POST /predict HTTP/1.1" 200 -
